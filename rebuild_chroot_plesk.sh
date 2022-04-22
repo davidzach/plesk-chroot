@@ -35,7 +35,17 @@ cp -a $NODEPATH/lib $VHOSTS/chroot$NODEPATH
 echo 'make aliases'
 ln -s $PHPPATH/bin/php $VHOSTS/chroot/usr/bin
 ln -s $NODEPATH/bin/node $VHOSTS/chroot/usr/bin
-ln -s $NODEPATH/lib/node_modules/npm/bin/npm-cli.js /var/www/vhosts/chroot/usr/bin/npm
-ln -s $NODEPATH/lib/node_modules/gulp-cli/bin/gulp.js /var/www/vhosts/chroot/usr/bin/gulp
+ln -s $NODEPATH/lib/node_modules/npm/bin/npm-cli.js $VHOSTS/chroot/usr/bin/npm
+ln -s $NODEPATH/lib/node_modules/gulp-cli/bin/gulp.js $VHOSTS/chroot/usr/bin/gulp
+
+echo 'Create directories for CA certificates in the chroot template:'
+
+mkdir -p $VHOSTS/chroot/etc/ssl/certs/
+mkdir -p $VHOSTS/chroot/usr/share/ca-certificates/
+
+echo 'Copy the CA certificates to those directories:'
+
+cp -a /etc/ssl/certs/* $VHOSTS/chroot/etc/ssl/certs/
+cp -a /usr/share/ca-certificates/* $VHOSTS/chroot/usr/share/ca-certificates/
 
 ./update_chroot.sh --apply all
